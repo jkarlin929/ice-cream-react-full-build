@@ -5,5 +5,6 @@ CREATE TABLE IF NOT EXISTS icecream (
   flavor VARCHAR(255),
   description VARCHAR(255),
   rating VARCHAR(6),
-  url VARCHAR(255)
+  url VARCHAR(255),
+  brand VARCHAR(255)
 );
