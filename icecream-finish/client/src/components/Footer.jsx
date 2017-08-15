@@ -3,7 +3,7 @@ import React from 'react';
 const Footer = () => {
   return (
     <footer>
-      Made with ❤️ by WDI DeLorean
+      Made with <span role="img" aria-label="heart">❤️</span> by WDI DeLorean
     </footer>
   )
 }
