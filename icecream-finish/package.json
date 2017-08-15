@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "debugger": "DEBUG=*:* nodemon app.js"
+  },
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.4",

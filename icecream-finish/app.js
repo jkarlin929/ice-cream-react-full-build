@@ -6,6 +6,8 @@ const bodyParser = require('body-parser');
 const app = express();
 
 app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
@@ -16,7 +18,7 @@ app.get('/', (req, res) => {
   res.send('hello world');
 });
 
-const icecreamRoutes = require('./routes/icecreamRoutes');
+const icecreamRoutes = require('./routes/icecream-routes');
 app.use('/icecream', icecreamRoutes);
 
 app.use('*', (req, res) => {
