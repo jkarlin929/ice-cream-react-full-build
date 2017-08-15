@@ -42,11 +42,127 @@ Now we should have an Express app and a React app running at the same time!
 
 # Step 1: Setting up our initial components
 
-- Within the React app, create a `components` folder. Then, create the following components (right now, we're just going to work on `Header` and `Footer`:
+- Within the React app, create a `src/components` folder. Then, create the following components (right now, we're just going to work on `Header` and `Footer`:
     - Header
     - Footer
     - IceCreamList
     - IceCream
     - IceCreamAddForm
     - IceCreamEditForm
+    - Home
 
+In our `App.js`, we want to get rid of all the React boilerplate. We're going to use Router in this app, so the first thing we need to do that is just wrap the entire app in `<Router>`.
+
+```jsx
+class App extends Component {
+  render() {
+    return (
+      <Router>
+        <div className="App">
+          <Header />
+          
+          <Footer />
+        </div>
+      </Router>
+    );
+  }
+}
+```
+
+We also need to set up the links in our `Header` component:
+
+```jsx
+      <nav>
+        <ul>
+          <li><Link to='/'>Home</Link></li>
+          <li><Link to='/ice-cream'>Ice Cream</Link></li>
+        </ul>
+      </nav>
+```
+
+And create our `Footer` component.
+
+At this point, this is what our three components look like:
+
+<details>
+<summary>App.js</summary>
+
+```jsx
+import React, { Component } from 'react';
+import './App.css';
+
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom'
+
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+
+class App extends Component {
+  render() {
+    return (
+      <Router>
+        <div className="App">
+          <Header />
+
+          <Footer />
+        </div>
+      </Router>
+    );
+  }
+}
+
+export default App;
+
+```
+</details>
+
+<details>
+<summary>Header</summary>
+
+```jsx
+import React from 'react';
+
+import { Link } from 'react-router-dom';
+
+const Header = () => {
+  return (
+    <header>
+      <div className='logo'>
+        DeLorean Ice Cream!
+      </div>
+      <nav>
+        <ul>
+          <li><Link to='/'>Home</Link></li>
+          <li><Link to='/ice-cream'>Ice Cream</Link></li>
+        </ul>
+      </nav>
+    </header>
+  )
+}
+
+export default Header;
+```
+
+</details>
+
+<details>
+<summary>Footer.jsx</summary>
+
+```jsx
+import React from 'react';
+
+const Footer = () => {
+  return (
+    <footer>
+      Made with ❤️ by WDI DeLorean
+    </footer>
+  )
+}
+
+export default Footer;
+```
+
+</details>
