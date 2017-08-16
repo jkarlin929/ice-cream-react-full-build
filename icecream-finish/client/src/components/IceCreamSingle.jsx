@@ -32,7 +32,7 @@ class IceCreamSingle extends Component {
             <h4 className="brand">{this.state.iceCream.brand}</h4>
             <h1>{this.state.iceCream.flavor}</h1>
             <p>{this.state.iceCream.description}</p>
-            <h3>Rating: {this.state.iceCream.rating}</h3>
+            <h3>Rating: {this.state.iceCream.rating || 'N/A'}</h3>
           </div>
         </div>
       )
