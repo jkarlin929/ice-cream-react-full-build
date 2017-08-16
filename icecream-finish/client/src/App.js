@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import Home from './components/Home';
 import IceCreamList from './components/IceCreamList';
 import IceCreamSingle from './components/IceCreamSingle';
+import IceCreamAddForm from './components/IceCreamAddForm';
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/ice-cream" component={IceCreamList} />
           <Route exact path="/ice-cream/:id" component={IceCreamSingle} />
+          <Route exact path="/add" component={IceCreamAddForm} />
           <Footer />
         </div>
       </Router>

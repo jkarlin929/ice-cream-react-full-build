@@ -409,3 +409,251 @@ export default IceCreamSingle;
 ## 🚀 LAB!!!
 
 Follow the steps I just did in class.
+
+# Step 4: Working on CRUD functionality
+
+Right now, we can view all ice creams and each individual ice cream. But what if we wanted to add _more ice cream_ to our incredible app??? (More ice cream is always a good thing!!)
+
+We need to have an add form in order to do this.
+
+So, let's start writing in our `IceCreamAddForm`.
+
+#### State
+
+Our form needs five inputs: flavor, description, rating, brand, and url. Since it's best practice to use controlled forms, let's set those values in state:
+
+```js
+this.state = {
+  flavor: '',
+  desc: '',
+  rating: '',
+  brand: '',
+  url: '',
+};
+```
+
+#### Inputs
+
+Then, we'll reference them when we create our form:
+
+```jsx
+<label>
+  Flavor
+  <input
+    type="text"
+    placeholder="Flavor"
+    name="flavor"
+    value={this.state.flavor}
+    onChange={this.handleInputChange}
+  />
+</label>
+// etc...
+```
+
+#### handleInputChange
+
+Next, we need to set up our `handleInputChange` function. We only want to use one function for multiple inputs -- keeping our code DRY, remember -- so we'll write it like this:
+
+```js
+handleInputChange(e) {
+  const name = e.target.name;
+  const value = e.target.value;
+  this.setState({
+    [name]: value,
+  });
+}
+```
+
+This function uses the `name` property on the input and sets the same property in `state`. So if the name of my input is `flavor`, then this is the same as saying:
+
+```js
+this.setState({
+  flavor: value,
+});
+```
+
+#### onFormSubmit
+
+Next comes the action that's taken when the form is submitted. We're posting to the end point `/icecream` in our Express app, and we need properties `flavor`, `description`, `rating`, `url`, and `brand` in the post. That means we can do this:
+
+```js
+handleFormSubmit(e) {
+  e.preventDefault();
+  axios
+    .post('/icecream', {
+      flavor: this.state.flavor,
+      description: this.state.desc,
+      rating: this.state.rating,
+      brand: this.state.brand,
+      url: this.state.url,
+    })
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => console.log(err));
+  e.target.reset();
+}
+```
+
+### Redirecting after form submit
+
+Once the form submits, the user doesn't need to stay on the page; they should go to the page for the ice cream they just created. To do this, we can use the ID we get back from our axios post and React Router's `Redirect` component.
+
+Let's add a `fireRedirect` property to our state that's initialized as `false`. 
+
+Then, we need to modify the `.then` of our post:
+
+```js
+.then(res => {
+  console.log(res);
+  this.setState({
+    newId: res.data.data.id,
+    fireRedirect: true,
+  });
+})
+```
+
+Lastly, we need to add the redirect component to our component -- but only if `fireRedirect` has already been changed to true:
+
+```jsx
+{this.state.fireRedirect
+  ? <Redirect push to={`/ice-cream/${this.state.newId}`} />
+  : ''}
+```
+
+(The way the `Redirect` component works is that if it renders, it'll redirect to another endpoint. THe user doesn't have to click on it or anything.)
+
+(Code adapted from [this gist])
+
+### Adding the route to `App.js`
+
+Import the `IceCreamAddForm` component and add the route to it:
+
+```jsx
+<Route exact path="/add" component={IceCreamAddForm} />
+```
+
+<details>
+<summary>IceCreamAddForm.jsx</summary>
+
+```jsx
+import React, { Component } from 'react';
+
+import axios from 'axios';
+
+import { Redirect } from 'react-router-dom';
+
+class IceCreamAddForm extends Component {
+  constructor() {
+    super();
+    this.state = {
+      flavor: '',
+      desc: '',
+      rating: '',
+      brand: '',
+      url: '',
+      fireRedirect: false,
+    };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+  }
+
+  handleInputChange(e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  handleFormSubmit(e) {
+    e.preventDefault();
+    axios
+      .post('/icecream', {
+        flavor: this.state.flavor,
+        description: this.state.desc,
+        rating: this.state.rating,
+        brand: this.state.brand,
+        url: this.state.url,
+      })
+      .then(res => {
+        console.log(res);
+        this.setState({
+          newId: res.data.data.id,
+          fireRedirect: true,
+        });
+      })
+      .catch(err => console.log(err));
+    e.target.reset();
+  }
+
+  render() {
+    return (
+      <div className="addform">
+        <form onSubmit={this.handleFormSubmit}>
+          <label>
+            Flavor
+            <input
+              type="text"
+              placeholder="Flavor"
+              name="flavor"
+              value={this.state.flavor}
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <label>
+            Description
+            <input
+              type="text"
+              placeholder="Description"
+              name="desc"
+              value={this.state.desc}
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <label>
+            Rating
+            <input
+              type="number"
+              placeholder="Rating"
+              name="rating"
+              value={this.state.description}
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <label>
+            Brand
+            <input
+              type="text"
+              placeholder="Brand"
+              name="brand"
+              value={this.state.brand}
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <label>
+            URL
+            <input
+              type="text"
+              placeholder="URL"
+              name="url"
+              value={this.state.url}
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <input type="submit" value="Submit!" />
+        </form>
+        {this.state.fireRedirect
+          ? <Redirect push to={`/ice-cream/${this.state.newId}`} />
+          : ''}
+      </div>
+    );
+  }
+}
+
+export default IceCreamAddForm;
+
+```
+
+</details>
+
