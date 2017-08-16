@@ -29,7 +29,7 @@
 - In `app.js` change the port from `3000` to `3001`.
 - Start the Express app using `yarn dev`!
 
-## Step 0: Setting up the React app
+# Step 0: Setting up the React app
 
 We want our Express app to serve our React app. While it's possible to have the react app and the express app be totally separate, it's neater and easier to control to put them in the same place.
 
@@ -82,8 +82,6 @@ We also need to set up the links in our `Header` component:
 
 And create our `Footer` component.
 
-Finally, there's a stylesheet you can copy and paste into `App.css` [here](haha).
-
 At this point, this is what our three components look like:
 
 <details>
@@ -122,7 +120,7 @@ export default App;
 </details>
 
 <details>
-<summary>Header.jsx</summary>
+<summary>Header</summary>
 
 ```jsx
 import React from 'react';
@@ -213,4 +211,3 @@ componentDidMount() {
     })
 }
 ```
-
