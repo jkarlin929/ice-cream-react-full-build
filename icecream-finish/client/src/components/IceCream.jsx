@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
-class IceCream extends Component {
-  render() {
-    console.log(this.props);
-    return (
-      <div>
-        One Ice IceCream
-      </div>
-    )
-  }
+const IceCream = (props) => {
+  return (
+    <div className="ic-inlist">
+      <img src={props.icecream.url} />
+      <h2>{props.icecream.flavor}</h2>
+      <p>{props.icecream.description}</p>
+      <p>Rating: {props.icecream.rating || 'N/A'}</p>
+    </div>
+  )
 }
 
 export default IceCream;
