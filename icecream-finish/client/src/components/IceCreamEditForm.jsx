@@ -44,7 +44,7 @@ class IceCreamEditForm extends Component {
   handleFormSubmit(e) {
     e.preventDefault();
     axios
-      .put('/icecream', {
+      .put(`/icecream/${this.props.match.params.id}`, {
         flavor: this.state.flavor,
         description: this.state.desc,
         rating: this.state.rating,
@@ -52,7 +52,6 @@ class IceCreamEditForm extends Component {
         url: this.state.url,
       })
       .then(res => {
-        console.log(res);
         this.setState({
           newId: res.data.data.id,
           fireRedirect: true,

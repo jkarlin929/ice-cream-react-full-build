@@ -9,6 +9,7 @@ import Home from './components/Home';
 import IceCreamList from './components/IceCreamList';
 import IceCreamSingle from './components/IceCreamSingle';
 import IceCreamAddForm from './components/IceCreamAddForm';
+import IceCreamEditForm from './components/IceCreamEditForm';
 
 class App extends Component {
   render() {
@@ -20,7 +21,7 @@ class App extends Component {
           <Route exact path="/ice-cream" component={IceCreamList} />
           <Route exact path="/ice-cream/:id" component={IceCreamSingle} />
           <Route exact path="/add" component={IceCreamAddForm} />
-          <Route exact path="/edit/:id" component={IceCreamAddForm} />
+          <Route exact path="/edit/:id" component={IceCreamEditForm} />
           <Footer />
         </div>
       </Router>
