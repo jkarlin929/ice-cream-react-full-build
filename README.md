@@ -29,7 +29,7 @@
 - In `app.js` change the port from `3000` to `3001`.
 - Start the Express app using `yarn dev`!
 
-# Step 0: Setting up the React app
+## Step 0: Setting up the React app
 
 We want our Express app to serve our React app. While it's possible to have the react app and the express app be totally separate, it's neater and easier to control to put them in the same place.
 
@@ -82,6 +82,8 @@ We also need to set up the links in our `Header` component:
 
 And create our `Footer` component.
 
+Finally, there's a stylesheet you can copy and paste into `App.css` [here](haha).
+
 At this point, this is what our three components look like:
 
 <details>
@@ -120,7 +122,7 @@ export default App;
 </details>
 
 <details>
-<summary>Header</summary>
+<summary>Header.jsx</summary>
 
 ```jsx
 import React from 'react';
@@ -166,3 +168,49 @@ export default Footer;
 ```
 
 </details>
+
+## 🚀 LAB!
+
+Get your `icecream-begin` app to look like the one we've been working on!
+
+# Step 2: Create our `Home`, `IceCreamList`, and `IceCream` components (and the applicable `Routes`)
+
+Our `Home` page is going to be pretty basic, just a stateless functional component:
+
+```jsx
+
+import React from 'react';
+
+const Home = () => {
+  return (
+    <div className="home">
+      <h1>Ice Cream</h1>
+      <h3>It is the best dessert!</h3>
+    </div>
+  )
+}
+
+export default Home;
+
+```
+
+Then, in between the Header and Footer in our App component's `render` method, we need to add the applicable route:
+
+```jsx
+<Route exact path='/' component={Home} />
+```
+
+Next, we should create the `IceCreamList` component. It's going to look pretty similar to the `QuoteList` component. The API call in `componentDidMount` is going to look like this:
+
+```js
+componentDidMount() {
+  axios.get('/icecream')
+    .then(res => {
+      this.setstate({
+        apiData: res.data.data,
+        apiDataLoaded: true,
+      })
+    })
+}
+```
+

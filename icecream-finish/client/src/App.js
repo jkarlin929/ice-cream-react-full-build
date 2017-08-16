@@ -8,7 +8,8 @@ import {
 
 import Header from './components/Header';
 import Footer from './components/Footer';
-
+import Home from './components/Home';
+import IceCreamList from './components/IceCreamList';
 
 class App extends Component {
   render() {
@@ -16,7 +17,8 @@ class App extends Component {
       <Router>
         <div className="App">
           <Header />
-
+            <Route exact path='/' component={Home} />
+            <Route exact path='/ice-cream' component={IceCreamList} />
           <Footer />
         </div>
       </Router>
