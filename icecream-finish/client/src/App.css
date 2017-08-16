@@ -55,7 +55,7 @@ table {
   color: #B18AE0;
 }
 
-.color-two {
+.color-three {
   color: #87DCFA;
 }
 
@@ -142,4 +142,59 @@ footer {
   align-items: center;
   justify-content: center;
   border-top: 1px solid black;
+}
+
+.icecream-list {
+  display: flex;
+  max-width: 80vw;
+  margin: auto;
+  flex-wrap: wrap;
+}
+
+.icecream-list .ic-inlist img {
+  max-width: 100%;
+}
+
+.ic-inlist {
+  width: 30%;
+  margin: 15px;
+  box-sizing: border-box;
+  padding: 30px;
+  border: 1px solid black;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: 0.2s all;
+}
+
+.ic-inlist:hover {
+  background-color:  rgba(243, 201, 221, 0.3);
+}
+
+
+.ic-inlist h2 {
+  line-height: 1.4em;
+  font-weight: 900;
+  margin: 10px auto;
+}
+
+.ic-inlist p {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  font-family: 'inconsolata', monospace;
+}
+
+.ic-inlist a {
+  padding: 15px 30px;
+  margin: 10px auto;
+  background-color: black;
+  color: white;
+  text-decoration: none;
+  font-family: 'inconsolata', monospace;
+  transition: 0.2s all;
+}
+
+.ic-inlist a:hover {
+  color: #87DCFA;
 }
