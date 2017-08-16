@@ -20,7 +20,7 @@
 - Use React Router to handle the different components that are rendered
 - Have a really excellent time looking at ice cream
 
-# Step -1: Setting up your environment
+# Step 0: Setting up your environment
 
 - Within the Express app `icecream-begin` run `yarn install` (NOT `npm install!!`)
     - Sidebar: It's best during a project to only use one or the other. This project was initialized using `yarn`, so we need to run `yarn install` to install the dependencies.
@@ -29,7 +29,7 @@
 - In `app.js` change the port from `3000` to `3001`.
 - Start the Express app using `yarn dev`!
 
-# Step 0: Setting up the React app
+# Step 0.5: Setting up the React app
 
 We want our Express app to serve our React app. While it's possible to have the react app and the express app be totally separate, it's neater and easier to control to put them in the same place.
 
@@ -83,6 +83,8 @@ We also need to set up the links in our `Header` component:
 
 And create our `Footer` component.
 
+There's also some css to put into your `App.css` [here](https://git.generalassemb.ly/raw/gist/jlr7245/2bbb3cf417784c9ced00c0621d38f281/raw/8cc3759e40e13be5df433e9b10b846e7f17c0b6f/App.css).
+
 At this point, this is what our three components look like:
 
 <details>
@@ -107,7 +109,9 @@ class App extends Component {
       <Router>
         <div className="App">
           <Header />
+            <div className="container">
 
+            </div>
           <Footer />
         </div>
       </Router>
@@ -354,6 +358,8 @@ import React, { Component } from 'react';
 
 import axios from 'axios';
 
+import { Link, Redirect } from 'react-router-dom';
+
 class IceCreamSingle extends Component {
   constructor() {
     super();
@@ -373,6 +379,7 @@ class IceCreamSingle extends Component {
       }).catch(err => console.log(err));
   }
 
+
   renderIceCreamOrLoading() {
     if (this.state.apiDataLoaded) {
       return (
@@ -384,7 +391,9 @@ class IceCreamSingle extends Component {
             <h4 className="brand">{this.state.iceCream.brand}</h4>
             <h1>{this.state.iceCream.flavor}</h1>
             <p>{this.state.iceCream.description}</p>
-            <h3>Rating: {this.state.iceCream.rating || 'N/A'}</h3>
+            <div className="links">
+              <span className="rating">Rating: {this.state.iceCream.rating || 'N/A'}</span>
+            </div>
           </div>
         </div>
       )
@@ -589,7 +598,7 @@ class IceCreamAddForm extends Component {
 
   render() {
     return (
-      <div className="addform">
+      <div className="add">
         <form onSubmit={this.handleFormSubmit}>
           <label>
             Flavor
@@ -744,7 +753,7 @@ class IceCreamEditForm extends Component {
 
   render() {
     return (
-      <div className="addform">
+      <div className="edit">
         <form onSubmit={this.handleFormSubmit}>
           <label>
             Flavor
@@ -903,13 +912,15 @@ class IceCreamSingle extends Component {
             <h4 className="brand">{this.state.iceCream.brand}</h4>
             <h1>{this.state.iceCream.flavor}</h1>
             <p>{this.state.iceCream.description}</p>
-            <h3>Rating: {this.state.iceCream.rating || 'N/A'}</h3>
+            <div className="links">
+              <span className="rating">Rating: {this.state.iceCream.rating || 'N/A'}</span>
+              <Link to={`/edit/${this.props.match.params.id}`}>Edit</Link>
+              <span className="delete" onClick={this.deleteIceCream}>Delete</span>
+              {this.state.fireRedirect
+                ? <Redirect push to="/ice-cream" />
+                : ''}
+            </div>
           </div>
-          <Link to={`/ice-cream/edit/${this.props.match.params.id}`}>Edit</Link>
-          <span className="delete" onClick={this.deleteIceCream}>Delete</span>
-          {this.state.fireRedirect
-          ? <Redirect push to="/ice-cream" />
-          : ''}
         </div>
       )
     } else return <p className="loading">Loading...</p>
@@ -963,11 +974,13 @@ class App extends Component {
       <Router>
         <div className="App">
           <Header />
-          <Route exact path="/" component={Home} />
-          <Route exact path="/ice-cream" component={IceCreamList} />
-          <Route exact path="/ice-cream/:id" component={IceCreamSingle} />
-          <Route exact path="/add" component={IceCreamAddForm} />
-          <Route exact path="/edit/:id" component={IceCreamEditForm} />
+          <div className="container">
+            <Route exact path="/" component={Home} />
+            <Route exact path="/ice-cream" component={IceCreamList} />
+            <Route exact path="/ice-cream/:id" component={IceCreamSingle} />
+            <Route exact path="/add" component={IceCreamAddForm} />
+            <Route exact path="/edit/:id" component={IceCreamEditForm} />
+          </div>
           <Footer />
         </div>
       </Router>

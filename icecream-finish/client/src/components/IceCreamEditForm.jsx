@@ -63,7 +63,7 @@ class IceCreamEditForm extends Component {
 
   render() {
     return (
-      <div className="addform">
+      <div className="edit">
         <form onSubmit={this.handleFormSubmit}>
           <label>
             Flavor

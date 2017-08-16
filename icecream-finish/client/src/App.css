@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Inconsolata|Poppins:400,700');
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -43,6 +44,30 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
+input[type="submit"],
+input[type=password],
+input[type="reset"],
+input[type="button"],
+button {
+    background: none;
+    border: 0;
+    color: inherit;
+    /* cursor: default; */
+    font: inherit;
+    line-height: normal;
+    overflow: visible;
+    padding: 0;
+    -webkit-appearance: button; /* for input */
+    cursor: pointer;
+}
+input::-moz-focus-inner,
+button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+
 
 
 /* J CSS */
@@ -271,4 +296,55 @@ footer {
 .info .links a:hover, .info .links .delete:hover {
   background-color: black;
   color: #b18ae0;
+}
+
+
+.container .add, .container .edit {
+  margin: 50px auto;
+}
+
+.add form, .edit form {
+  width: 50vw;
+  padding: 50px;
+  box-sizing: border-box;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #000;
+}
+
+form input[type=text], form input[type=number], form input[type=email], form input[type=password] {
+  border: 0;
+  border-bottom: 3px solid #eee;
+  font-size: 1.7em;
+  margin: 20px 0;
+  padding: 5px;
+  display: block;
+  width: 100%;
+  transition: 0.3s;
+}
+
+form input[type=text]:focus, form input[type=number]:focus,
+form input[type=email]:focus, form input[type=password]:focus {
+  border-bottom: 3px solid #000;
+  outline: 0;
+}
+
+.add form input[type=submit], .edit form input[type=submit], 
+.login form input[type=submit], .register form input[type=submit]  {
+  background-color: #000;
+  display: block;
+  margin: auto;
+  padding: 10px 30px;
+  font-size: 1.5em;
+  color: white;
+  font-weight: 900;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add form input[type=submit]:hover, .add form input[type=submit]:focus,
+.edit form input[type=submit]:hover, .edit form input[type=submit]:focus {
+  outline: 0;
+  background-color: #000;
 }
