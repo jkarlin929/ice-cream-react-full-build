@@ -17,11 +17,13 @@ class App extends Component {
       <Router>
         <div className="App">
           <Header />
-          <Route exact path="/" component={Home} />
-          <Route exact path="/ice-cream" component={IceCreamList} />
-          <Route exact path="/ice-cream/:id" component={IceCreamSingle} />
-          <Route exact path="/add" component={IceCreamAddForm} />
-          <Route exact path="/edit/:id" component={IceCreamEditForm} />
+          <div className="container">
+            <Route exact path="/" component={Home} />
+            <Route exact path="/ice-cream" component={IceCreamList} />
+            <Route exact path="/ice-cream/:id" component={IceCreamSingle} />
+            <Route exact path="/add" component={IceCreamAddForm} />
+            <Route exact path="/edit/:id" component={IceCreamEditForm} />
+          </div>
           <Footer />
         </div>
       </Router>
