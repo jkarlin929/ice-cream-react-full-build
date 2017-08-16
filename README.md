@@ -47,6 +47,7 @@ Now we should have an Express app and a React app running at the same time!
     - Footer
     - IceCreamList
     - IceCream
+    - IceCreamSingle
     - IceCreamAddForm
     - IceCreamEditForm
     - Home
@@ -319,5 +320,92 @@ export default IceCream;
 
 </details>
 
-# Step 3: Add the Single Ice Cream component
+# Step 3: Add the `IceCreamSingle` component
 
+This component will display info about one ice cream at a time.
+
+First, let's make the route for it in `App.js`:
+
+```jsx
+<Route exact path="/ice-cream/:id" component={IceCreamSingle} />
+```
+
+Then, within the `IceCreamSingle` component, we can access the param that's passed in by using `this.props.match.params.id` (geez!) and use it to make our request in `componentDidMount`:
+
+```jsx
+  componentDidMount() {
+    axios.get(`/icecream/${this.props.match.params.id}`)
+      .then(res => {
+        this.setState({
+          apiDataLoaded: true,
+          iceCream: res.data.data,
+        })
+      }).catch(err => console.log(err));
+  }
+```
+
+Finally, we render that information on the page.
+
+<details>
+<summary>IceCreamSingle.jsx</summary>
+
+```jsx
+import React, { Component } from 'react';
+
+import axios from 'axios';
+
+class IceCreamSingle extends Component {
+  constructor() {
+    super();
+    this.state = {
+      iceCream: null,
+      apiDataLoaded: false,
+    }
+  }
+
+  componentDidMount() {
+    axios.get(`/icecream/${this.props.match.params.id}`)
+      .then(res => {
+        this.setState({
+          apiDataLoaded: true,
+          iceCream: res.data.data,
+        })
+      }).catch(err => console.log(err));
+  }
+
+  renderIceCreamOrLoading() {
+    if (this.state.apiDataLoaded) {
+      return (
+        <div className="inner">
+          <div className="img">
+            <img src={this.state.iceCream.url} alt={this.state.iceCream.flavor} />
+          </div>
+          <div className="info">
+            <h4 className="brand">{this.state.iceCream.brand}</h4>
+            <h1>{this.state.iceCream.flavor}</h1>
+            <p>{this.state.iceCream.description}</p>
+            <h3>Rating: {this.state.iceCream.rating || 'N/A'}</h3>
+          </div>
+        </div>
+      )
+    } else return <p className="loading">Loading...</p>
+  }
+
+
+  render() {
+    return (
+      <div className="icecream-single">
+        {this.renderIceCreamOrLoading()}
+      </div>
+    )
+  }
+}
+
+export default IceCreamSingle;
+```
+
+</details>
+
+## 🚀 LAB!!!
+
+Follow the steps I just did in class.
