@@ -48,13 +48,15 @@ class IceCreamSingle extends Component {
             <h4 className="brand">{this.state.iceCream.brand}</h4>
             <h1>{this.state.iceCream.flavor}</h1>
             <p>{this.state.iceCream.description}</p>
-            <h3>Rating: {this.state.iceCream.rating || 'N/A'}</h3>
+            <div className="links">
+              <span className="rating">Rating: {this.state.iceCream.rating || 'N/A'}</span>
+              <Link to={`/edit/${this.props.match.params.id}`}>Edit</Link>
+              <span className="delete" onClick={this.deleteIceCream}>Delete</span>
+              {this.state.fireRedirect
+                ? <Redirect push to="/ice-cream" />
+                : ''}
+            </div>
           </div>
-          <Link to={`/edit/${this.props.match.params.id}`}>Edit</Link>
-          <span className="delete" onClick={this.deleteIceCream}>Delete</span>
-          {this.state.fireRedirect
-          ? <Redirect push to="/ice-cream" />
-          : ''}
         </div>
       )
     } else return <p className="loading">Loading...</p>
