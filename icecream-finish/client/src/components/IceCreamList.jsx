@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import axios from 'axios';
 
+import IceCream from './IceCream';
+
 class IceCreamList extends Component {
   constructor() {
     super();
@@ -15,14 +17,27 @@ class IceCreamList extends Component {
   componentDidMount() {
     axios.get('/icecream')
       .then(res => {
-        console.log(res.data);
+        this.setState({
+          apiDataLoaded: true,
+          apiData: res.data.data,
+        })
       })
+  }
+
+  renderIceCreams() {
+    if (this.state.apiDataLoaded) {
+      return this.state.apiData.map(icecream => {
+        return (
+          <IceCream key={icecream.id} icecream={icecream} />
+        );
+      });
+    } else return <p>Loading...</p>
   }
 
   render() {
     return (
       <div className="icecream-list">
-        <p>Check out all my cool ice creams~</p>
+        {this.renderIceCreams()}
       </div>
     )
   }
