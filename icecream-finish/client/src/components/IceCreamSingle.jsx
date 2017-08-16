@@ -48,3 +48,5 @@ class IceCreamSingle extends Component {
     )
   }
 }
+
+export default IceCreamSingle;
