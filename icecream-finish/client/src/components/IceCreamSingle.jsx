@@ -50,7 +50,7 @@ class IceCreamSingle extends Component {
             <p>{this.state.iceCream.description}</p>
             <h3>Rating: {this.state.iceCream.rating || 'N/A'}</h3>
           </div>
-          <Link to={`/ice-cream/edit/${this.props.match.params.id}`}>Edit</Link>
+          <Link to={`/edit/${this.props.match.params.id}`}>Edit</Link>
           <span className="delete" onClick={this.deleteIceCream}>Delete</span>
           {this.state.fireRedirect
           ? <Redirect push to="/ice-cream" />

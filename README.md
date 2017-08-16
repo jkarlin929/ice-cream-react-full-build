@@ -410,7 +410,7 @@ export default IceCreamSingle;
 
 Follow the steps I just did in class.
 
-# Step 4: Working on CRUD functionality
+# Step 4: Working on Create functionality
 
 Right now, we can view all ice creams and each individual ice cream. But what if we wanted to add _more ice cream_ to our incredible app??? (More ice cream is always a good thing!!)
 
@@ -418,7 +418,7 @@ We need to have an add form in order to do this.
 
 So, let's start writing in our `IceCreamAddForm`.
 
-#### State
+### State
 
 Our form needs five inputs: flavor, description, rating, brand, and url. Since it's best practice to use controlled forms, let's set those values in state:
 
@@ -432,7 +432,7 @@ this.state = {
 };
 ```
 
-#### Inputs
+### Inputs
 
 Then, we'll reference them when we create our form:
 
@@ -450,7 +450,7 @@ Then, we'll reference them when we create our form:
 // etc...
 ```
 
-#### handleInputChange
+### handleInputChange
 
 Next, we need to set up our `handleInputChange` function. We only want to use one function for multiple inputs -- keeping our code DRY, remember -- so we'll write it like this:
 
@@ -472,7 +472,7 @@ this.setState({
 });
 ```
 
-#### onFormSubmit
+### onFormSubmit
 
 Next comes the action that's taken when the form is submitted. We're posting to the end point `/icecream` in our Express app, and we need properties `flavor`, `description`, `rating`, `url`, and `brand` in the post. That means we can do this:
 
@@ -523,7 +523,7 @@ Lastly, we need to add the redirect component to our component -- but only if `f
 
 (The way the `Redirect` component works is that if it renders, it'll redirect to another endpoint. THe user doesn't have to click on it or anything.)
 
-(Code adapted from [this gist])
+(Code adapted from [this gist](https://gist.github.com/verticalgrain/195468e69f2ac88f3d9573d285b09764))
 
 ### Adding the route to `App.js`
 
@@ -657,3 +657,277 @@ export default IceCreamAddForm;
 
 </details>
 
+## 🚀 LAB!!
+
+Add the `IceCreamAddForm` to your app!
+
+# Step 5: Update and Delete
+
+Ahhh, almost finished. Just two more things to tackle.
+
+#### Update
+
+Our `IceCreamEditForm` is going to look pretty similar to the `IceCreamAddForm`, with two noticeable differences:
+
+- We need to `put`, not `post`, on form submission
+- We need to get the data for that particular ice cream when the form loads.
+
+<details>
+<summary>IceCreamEditForm.jsx</summary>
+
+```jsx
+
+import React, { Component } from 'react';
+
+import axios from 'axios';
+
+import { Redirect } from 'react-router-dom';
+
+class IceCreamEditForm extends Component {
+  constructor() {
+    super();
+    this.state = {
+      flavor: '',
+      desc: '',
+      rating: '',
+      brand: '',
+      url: '',
+      fireRedirect: false,
+    };
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
+  }
+  
+  componentDidMount() {
+    axios.get(`/icecream/${this.props.match.params.id}`)
+      .then((res) => {
+        const iceCream = res.data.data;
+        this.setState({
+          flavor: iceCream.flavor,
+          desc: iceCream.description,
+          rating: iceCream.rating,
+          brand: iceCream.brand,
+          url: iceCream.url,
+        })
+      }).catch(err => console.log(err));
+  }
+
+  handleInputChange(e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  handleFormSubmit(e) {
+    e.preventDefault();
+    axios
+      .put('/icecream', {
+        flavor: this.state.flavor,
+        description: this.state.desc,
+        rating: this.state.rating,
+        brand: this.state.brand,
+        url: this.state.url,
+      })
+      .then(res => {
+        console.log(res);
+        this.setState({
+          newId: res.data.data.id,
+          fireRedirect: true,
+        });
+      })
+      .catch(err => console.log(err));
+    e.target.reset();
+  }
+
+  render() {
+    return (
+      <div className="addform">
+        <form onSubmit={this.handleFormSubmit}>
+          <label>
+            Flavor
+            <input
+              type="text"
+              placeholder="Flavor"
+              name="flavor"
+              value={this.state.flavor}
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <label>
+            Description
+            <input
+              type="text"
+              placeholder="Description"
+              name="desc"
+              value={this.state.desc}
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <label>
+            Rating
+            <input
+              type="number"
+              placeholder="Rating"
+              name="rating"
+              value={this.state.description}
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <label>
+            Brand
+            <input
+              type="text"
+              placeholder="Brand"
+              name="brand"
+              value={this.state.brand}
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <label>
+            URL
+            <input
+              type="text"
+              placeholder="URL"
+              name="url"
+              value={this.state.url}
+              onChange={this.handleInputChange}
+            />
+          </label>
+          <input type="submit" value="Submit!" />
+        </form>
+        {this.state.fireRedirect
+          ? <Redirect push to={`/ice-cream/${this.state.newId}`} />
+          : ''}
+      </div>
+    );
+  }
+}
+
+export default IceCreamEditForm;
+
+```
+
+</details>
+
+### Delete & linking to the Edit form
+
+Adding the Delete button is as simple as adding a method to our `IceCreamSingle` component.
+
+```jsx
+<span className="delete" onClick={this.deleteIceCream}>Delete</span>
+```
+
+```js
+  deleteIceCream() {
+    axios.delete(`/icecream/${this.props.match.params.id}`) 
+      .then(res => {
+        console.log(res);
+        this.setState({
+          fireRedirect: true,
+        });
+      }).catch(err => {
+        console.log(err);
+      });
+  }
+```
+
+We also have to include that `fireRedirect` snippet at the end:
+
+```jsx
+{this.state.fireRedirect
+? <Redirect push to="/ice-cream" />
+: ''}
+```
+
+And link to the edit form:
+
+```jsx
+<Link to={`/ice-cream/edit/${this.props.match.params.id}`}>Edit</Link>
+```
+
+<details>
+<summary>Updated IceCreamSingle.jsx</summary>
+
+```jsx
+import React, { Component } from 'react';
+
+import axios from 'axios';
+
+import { Link, Redirect } from 'react-router-dom';
+
+class IceCreamSingle extends Component {
+  constructor() {
+    super();
+    this.state = {
+      iceCream: null,
+      apiDataLoaded: false,
+      fireRedirect: false,
+    }
+    this.deleteIceCream = this.deleteIceCream.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get(`/icecream/${this.props.match.params.id}`)
+      .then(res => {
+        this.setState({
+          apiDataLoaded: true,
+          iceCream: res.data.data,
+        })
+      }).catch(err => console.log(err));
+  }
+
+  deleteIceCream() {
+    axios.delete(`/icecream/${this.props.match.params.id}`) 
+      .then(res => {
+        console.log(res);
+        this.setState({
+          fireRedirect: true,
+        });
+      }).catch(err => {
+        console.log(err);
+      });
+  }
+
+  renderIceCreamOrLoading() {
+    if (this.state.apiDataLoaded) {
+      return (
+        <div className="inner">
+          <div className="img">
+            <img src={this.state.iceCream.url} alt={this.state.iceCream.flavor} />
+          </div>
+          <div className="info">
+            <h4 className="brand">{this.state.iceCream.brand}</h4>
+            <h1>{this.state.iceCream.flavor}</h1>
+            <p>{this.state.iceCream.description}</p>
+            <h3>Rating: {this.state.iceCream.rating || 'N/A'}</h3>
+          </div>
+          <Link to={`/ice-cream/edit/${this.props.match.params.id}`}>Edit</Link>
+          <span className="delete" onClick={this.deleteIceCream}>Delete</span>
+          {this.state.fireRedirect
+          ? <Redirect push to="/ice-cream" />
+          : ''}
+        </div>
+      )
+    } else return <p className="loading">Loading...</p>
+  }
+
+
+  render() {
+    return (
+      <div className="icecream-single">
+        {this.renderIceCreamOrLoading()}
+      </div>
+    )
+  }
+}
+
+export default IceCreamSingle;
+```
+
+</details>
+
+### Adding the edit form route to the app
+
+Finally, the _very last step_ is to add the route for `IceCreamEditForm`. 

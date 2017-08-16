@@ -20,6 +20,7 @@ class App extends Component {
           <Route exact path="/ice-cream" component={IceCreamList} />
           <Route exact path="/ice-cream/:id" component={IceCreamSingle} />
           <Route exact path="/add" component={IceCreamAddForm} />
+          <Route exact path="/edit/:id" component={IceCreamAddForm} />
           <Footer />
         </div>
       </Router>
