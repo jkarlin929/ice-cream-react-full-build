@@ -211,3 +211,113 @@ componentDidMount() {
     })
 }
 ```
+
+Then, we just need to map through the data and render a bunch of `IceCream` components:
+
+```jsx
+  renderIceCreams() {
+    if (this.state.apiDataLoaded) {
+      return this.state.apiData.map(icecream => {
+        return (
+          <IceCream key={icecream.id} icecream={icecream} />
+        );
+      });
+    } else return <p>Loading...</p>
+  }
+
+  render() {
+    return (
+      <div className="icecream-list">
+        {this.renderIceCreams()}
+      </div>
+    )
+  }
+```
+
+We also need to create the `IceCream` component. It'll have all the details about the ice cream as well as a link to the ice cream's individual page.
+
+Finally, we need to add the route in `App.js`.
+
+```jsx
+<Route exact path='/ice-cream' component={IceCreamList} />
+```
+
+<details>
+<summary>IceCreamList.jsx</summary>
+
+```jsx
+import React, { Component } from 'react';
+
+import axios from 'axios';
+
+import IceCream from './IceCream';
+
+class IceCreamList extends Component {
+  constructor() {
+    super();
+    this.state = {
+      apiDataLoaded: false,
+      apiData: null,
+    }
+
+  }
+
+  componentDidMount() {
+    axios.get('/icecream')
+      .then(res => {
+        this.setState({
+          apiDataLoaded: true,
+          apiData: res.data.data,
+        })
+      })
+  }
+
+  renderIceCreams() {
+    if (this.state.apiDataLoaded) {
+      return this.state.apiData.map(icecream => {
+        return (
+          <IceCream key={icecream.id} icecream={icecream} />
+        );
+      });
+    } else return <p>Loading...</p>
+  }
+
+  render() {
+    return (
+      <div className="icecream-list">
+        {this.renderIceCreams()}
+      </div>
+    )
+  }
+}
+
+export default IceCreamList;
+```
+</details>
+
+<details>
+<summary>IceCream.jsx</summary>
+
+```jsx
+import React from 'react';
+
+import { Link } from 'react-router-dom';
+
+const IceCream = (props) => {
+  return (
+    <div className="ic-inlist">
+      <img src={props.icecream.url} />
+      <h2>{props.icecream.flavor}</h2>
+      <p>Rating: {props.icecream.rating || 'N/A'}</p>
+      <Link to={`/ice-cream/${props.icecream.id}`}>See More</Link>
+    </div>
+  )
+}
+
+export default IceCream;
+```
+
+</details>
+
+# Step 3: Add the Single Ice Cream component
+
