@@ -701,6 +701,7 @@ class IceCreamEditForm extends Component {
   componentDidMount() {
     axios.get(`/icecream/${this.props.match.params.id}`)
       .then((res) => {
+        console.log(res);
         const iceCream = res.data.data;
         this.setState({
           flavor: iceCream.flavor,
@@ -723,7 +724,7 @@ class IceCreamEditForm extends Component {
   handleFormSubmit(e) {
     e.preventDefault();
     axios
-      .put('/icecream', {
+      .put(`/icecream/${this.props.match.params.id}`, {
         flavor: this.state.flavor,
         description: this.state.desc,
         rating: this.state.rating,
@@ -806,6 +807,7 @@ class IceCreamEditForm extends Component {
 }
 
 export default IceCreamEditForm;
+
 
 ```
 
@@ -931,3 +933,55 @@ export default IceCreamSingle;
 ### Adding the edit form route to the app
 
 Finally, the _very last step_ is to add the route for `IceCreamEditForm`. 
+
+```jsx
+<Route exact path="/edit/:id" component={IceCreamEditForm} />
+```
+
+And... we have a full CRUD app. WOOHOO!!
+
+<details>
+<summary>Final App.js</summary>
+
+```jsx
+import React, { Component } from 'react';
+import './App.css';
+
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import Header from './components/Header';
+import Footer from './components/Footer';
+import Home from './components/Home';
+import IceCreamList from './components/IceCreamList';
+import IceCreamSingle from './components/IceCreamSingle';
+import IceCreamAddForm from './components/IceCreamAddForm';
+import IceCreamEditForm from './components/IceCreamEditForm';
+
+class App extends Component {
+  render() {
+    return (
+      <Router>
+        <div className="App">
+          <Header />
+          <Route exact path="/" component={Home} />
+          <Route exact path="/ice-cream" component={IceCreamList} />
+          <Route exact path="/ice-cream/:id" component={IceCreamSingle} />
+          <Route exact path="/add" component={IceCreamAddForm} />
+          <Route exact path="/edit/:id" component={IceCreamEditForm} />
+          <Footer />
+        </div>
+      </Router>
+    );
+  }
+}
+
+export default App;
+
+```
+
+
+</details>
+
+## 🚀 LAB!!
+
+Add the final CRUD pieces for your `icecream-begin` app. Reference the `icecream-final` app if something isn't working!!!
