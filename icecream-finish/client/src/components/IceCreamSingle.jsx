@@ -2,13 +2,17 @@ import React, { Component } from 'react';
 
 import axios from 'axios';
 
+import { Link, Redirect } from 'react-router-dom';
+
 class IceCreamSingle extends Component {
   constructor() {
     super();
     this.state = {
       iceCream: null,
       apiDataLoaded: false,
+      fireRedirect: false,
     }
+    this.deleteIceCream = this.deleteIceCream.bind(this);
   }
 
   componentDidMount() {
@@ -19,6 +23,18 @@ class IceCreamSingle extends Component {
           iceCream: res.data.data,
         })
       }).catch(err => console.log(err));
+  }
+
+  deleteIceCream() {
+    axios.delete(`/icecream/${this.props.match.params.id}`) 
+      .then(res => {
+        console.log(res);
+        this.setState({
+          fireRedirect: true,
+        });
+      }).catch(err => {
+        console.log(err);
+      });
   }
 
   renderIceCreamOrLoading() {
@@ -34,6 +50,11 @@ class IceCreamSingle extends Component {
             <p>{this.state.iceCream.description}</p>
             <h3>Rating: {this.state.iceCream.rating || 'N/A'}</h3>
           </div>
+          <Link to={`/ice-cream/edit/${this.props.match.params.id}`}>Edit</Link>
+          <span className="delete" onClick={this.deleteIceCream}>Delete</span>
+          {this.state.fireRedirect
+          ? <Redirect push to="/ice-cream" />
+          : ''}
         </div>
       )
     } else return <p className="loading">Loading...</p>
