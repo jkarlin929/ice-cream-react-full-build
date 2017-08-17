@@ -35,7 +35,7 @@ We want our Express app to serve our React app. While it's possible to have the 
 
 - Run `create-react-app client`. It's customary to name the frontend section of your app `client`.
 - cd into `client` and run `yarn add axios react-router-dom`, we're going to need to use both of them.
-- In `client/package.json`, add this line at the bottom: `"proxy": "https://localhost:3001"`. This allows us to make requests from the frontend to the backend, since they're running on different ports right now. Eventually, we will have the Express app serving the React app, but we want the handy React developer server and its "hot reloading".
+- In `client/package.json`, add this line at the bottom: `"proxy": "http://localhost:3001"`. This allows us to make requests from the frontend to the backend, since they're running on different ports right now. Eventually, we will have the Express app serving the React app, but we want the handy React developer server and its "hot reloading".
 - Run `yarn start` to start the react app.
 
 Now we should have an Express app and a React app running at the same time!
