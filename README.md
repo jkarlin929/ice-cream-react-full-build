@@ -999,6 +999,42 @@ export default App;
 
 Add the final CRUD pieces for your `icecream-begin` app. Reference the `icecream-final` app if something isn't working!!!
 
+# Step 6: Preparing for deployment
+
+Now that we know how to run the react client and express server locally on different ports for development purposes, we need to prepare everything for deployment!
+
+Remember Webpack? Let's use it!
+
+When we use create-react-app, it comes preconfigured with webpack. In your terminal, run the command
+
+```
+yarn run build
+```
+
+This will create a build folder with everything packaged up and ready to be served by our express app.
+
+We just have to make a few small adjustments to the node server's app.js.
+
+First, we need to remove the root route and let our static files be served up using the default settings.
+
+Comment out the following code in your app.js.
+
+```js
+app.get('/', (req, res) => {
+  res.send('hello world');
+});
+```
+
+Next, we need to tell express to use our build folder as the place to serve static files from
+
+```js
+app.use(express.static('client/build'));
+```
+
+Now we can just run the node server, and our react files will be served up!
+
+If you want to deploy your app to Heroku, just follow the standard instructions like we did for the previous project.
+
 ## Extra Resources
 
 - [Proxy with React](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#proxying-api-requests-in-development)
