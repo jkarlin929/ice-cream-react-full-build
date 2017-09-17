@@ -998,3 +998,7 @@ export default App;
 ## 🚀 LAB!!
 
 Add the final CRUD pieces for your `icecream-begin` app. Reference the `icecream-final` app if something isn't working!!!
+
+## Extra Resources
+
+- [Proxy with React](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#proxying-api-requests-in-development)
