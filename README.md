@@ -5,7 +5,6 @@
 - Build an app about ice cream!
 - Practice setting up a React frontend with an Express backend
 - Implement full CRUD functionality into our React app
-- Profit??? 🍦
 
 ### IN THIS REPOSITORY ARE THE FOLLOWING THINGS!
 
