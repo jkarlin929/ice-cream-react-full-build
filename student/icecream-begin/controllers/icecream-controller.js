@@ -36,7 +36,6 @@ icecreamController.create = (req, res) => {
     description: req.body.description,
     rating: req.body.rating,
     url: req.body.url,
-    brand: req.body.brand,
   })
     .then(icecream => {
       res.json({
@@ -57,7 +56,6 @@ icecreamController.update = (req, res) => {
       description: req.body.description,
       rating: req.body.rating,
       url: req.body.url,
-      brand: req.body.brand,
     },
     req.params.id,
   )
