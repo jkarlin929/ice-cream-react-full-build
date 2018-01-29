@@ -135,7 +135,7 @@ const Header = () => {
   return (
     <header>
       <div className='logo'>
-        DeLorean Ice Cream!
+         Ice Cream!
       </div>
       <nav>
         <ul>
@@ -161,7 +161,7 @@ import React from 'react';
 const Footer = () => {
   return (
     <footer>
-      Made with ❤️ by WDI DeLorean
+      Made with ❤️ by WDI 
     </footer>
   )
 }
