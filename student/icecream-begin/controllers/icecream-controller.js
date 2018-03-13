@@ -35,6 +35,7 @@ icecreamController.create = (req, res) => {
     flavor: req.body.flavor,
     description: req.body.description,
     rating: req.body.rating,
+    brand: req.body.brand,
     url: req.body.url,
   })
     .then(icecream => {
@@ -55,6 +56,7 @@ icecreamController.update = (req, res) => {
       flavor: req.body.flavor,
       description: req.body.description,
       rating: req.body.rating,
+      brand: req.body.brand,
       url: req.body.url,
     },
     req.params.id,

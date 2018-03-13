@@ -20,11 +20,11 @@ Icecream.create = icecream => {
   return db.one(
     `
     INSERT INTO icecream
-    (flavor, description, rating, url)
-    VALUES ($1, $2, $3, $4)
+    (flavor, description, rating, brand, url)
+    VALUES ($1, $2, $3, $4, $5)
     RETURNING *
   `,
-    [icecream.flavor, icecream.description, icecream.rating, icecream.url]
+    [icecream.flavor, icecream.description, icecream.rating, icecream.brand, icecream.url]
   );
 };
 
@@ -35,11 +35,12 @@ Icecream.update = (icecream, id) => {
       flavor = $1,
       description = $2,
       rating = $3,
-      url = $4
-    WHERE id = $5
+      brand = $4,
+      url = $5
+    WHERE id = $6
     RETURNING *
   `,
-    [icecream.flavor, icecream.description, icecream.rating, icecream.url, id]
+    [icecream.flavor, icecream.description, icecream.rating, icecream.brand, icecream.url, id]
   );
 };
 
